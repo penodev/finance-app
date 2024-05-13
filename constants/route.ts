@@ -1,1 +1,1 @@
-export const protectedRoute = ["/dashboard(.*)", "/forum(.*)"];
+export const protectedRoute = ["/"];
