@@ -11,11 +11,11 @@ import {
 import { insertAccountSchema } from "@/db/schema";
 import { useConfirm } from "@/hooks/use-confirm";
 
-import { AccountForm } from "./account-form";
+import { AccountForm } from "./transaction-form";
 import { useOpenAccount } from "../hooks/use-open-account";
 import { useGetTransaction } from "../api/use-get-transaction";
-import { useEditAccount } from "../api/use-edit-account";
-import { useDeleteAccount } from "../api/use-delete-account";
+import { useEditAccount } from "../api/use-edit-transaction";
+import { useDeleteAccount } from "../api/use-delete-transaction";
 
 const formSchema = insertAccountSchema.pick({
   name: true,
