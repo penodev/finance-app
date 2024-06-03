@@ -22,7 +22,7 @@ export const Actions = ({ id }: Props) => {
   const deleteMutation = useDeleteCategory(id);
   const [ConfirmDialog, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete this category"
+    "You are about to delete this category."
   );
 
   const handleDelete = async () => {
