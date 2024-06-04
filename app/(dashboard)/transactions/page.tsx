@@ -1,5 +1,6 @@
 "use client";
 import { Loader2, Plus } from "lucide-react";
+import { useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,14 +9,31 @@ import { DataTable } from "@/components/ui/data-table";
 import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteTransactions } from "@/features/transactions/api/use-bulk-delete-transactions";
+import { INITIAL_IMPORT_RESULTS, VARIANTS } from "@/constants/transactions";
 
 import { columns } from "./columns";
+import { UploadButton } from "./upload-button";
+import { ImportCard } from "./import-card";
 
 const TransactionsPage = () => {
+  const [variant, setVariant] = useState<VARIANTS>(VARIANTS.LIST);
+  const [importResults, setImportResults] = useState(INITIAL_IMPORT_RESULTS);
+
   const newTransaction = useNewTransaction();
   const deleteTransactions = useBulkDeleteTransactions();
   const transactionsQuery = useGetTransactions();
   const transactions = transactionsQuery.data ?? [];
+
+  const onUpload = (results: typeof INITIAL_IMPORT_RESULTS) => {
+    console.log({ results });
+    setImportResults(results);
+    setVariant(VARIANTS.IMPORT);
+  };
+
+  const onCancelImport = () => {
+    setImportResults(INITIAL_IMPORT_RESULTS);
+    setVariant(VARIANTS.LIST);
+  };
 
   const isDisabled =
     transactionsQuery.isLoading || deleteTransactions.isPending;
@@ -41,6 +59,18 @@ const TransactionsPage = () => {
     );
   }
 
+  if (variant === VARIANTS.IMPORT) {
+    return (
+      <>
+        <ImportCard
+          data={importResults.data}
+          onCancel={onCancelImport}
+          onSubmit={() => {}}
+        />
+      </>
+    );
+  }
+
   return (
     <div className='max-w-screen-2xl mx-auto w-full pb-10 -mt-24'>
       <Card className='border-none drop-shadow-sm'>
@@ -48,10 +78,17 @@ const TransactionsPage = () => {
           <CardTitle className='text-xl line-clamp-1'>
             Transactions History
           </CardTitle>
-          <Button size='sm' onClick={newTransaction.onOpen}>
-            <Plus className='size-4 mr-2' />
-            Add new
-          </Button>
+          <div className='flex flex-col lg:flex-row items-center gap-2'>
+            <Button
+              size='sm'
+              onClick={newTransaction.onOpen}
+              className='w-full lg:w-auto'
+            >
+              <Plus className='size-4 mr-2' />
+              Add new
+            </Button>
+            <UploadButton onUpload={onUpload} />
+          </div>
         </CardHeader>
         <CardContent>
           <DataTable
