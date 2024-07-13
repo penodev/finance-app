@@ -54,7 +54,7 @@ export function fillMissingDays(
       return found;
     } else {
       return {
-        data: day,
+        date: day,
         income: 0,
         expenses: 0,
       };
