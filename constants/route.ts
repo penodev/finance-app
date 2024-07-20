@@ -1,4 +1,10 @@
-export const protectedRoute = ["/"];
+export const protectedRoute = [
+  "/",
+  "/transactions",
+  "/accounts",
+  "/categories",
+  "/settings",
+];
 
 export const routes = [
   { href: "/", label: "Overview" },

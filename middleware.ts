@@ -5,6 +5,8 @@ import { protectedRoute } from "./constants/route";
 const isProtectedRoute = createRouteMatcher(protectedRoute);
 
 export default clerkMiddleware((auth, request) => {
+  console.log(request);
+  console.log(isProtectedRoute(request));
   if (isProtectedRoute(request)) {
     auth().protect();
   }
